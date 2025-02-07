@@ -94,7 +94,7 @@ public class PotionRunGUI implements Listener {
     public static void createInstantDamagePotion(Location location) {
         ItemStack potionItemStack = new ItemStack(Material.SPLASH_POTION);
         PotionMeta potionMeta = (PotionMeta) potionItemStack.getItemMeta();
-        potionMeta.setBasePotionData(new PotionData(PotionType.INSTANT_DAMAGE));
+        potionMeta.setBasePotionData(new PotionData(PotionType.HARMING));
 
         potionItemStack.setItemMeta(potionMeta);
 

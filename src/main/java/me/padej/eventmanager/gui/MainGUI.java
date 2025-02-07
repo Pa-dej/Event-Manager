@@ -1,5 +1,6 @@
 package me.padej.eventmanager.gui;
 
+import me.padej.eventmanager.gui.mace.MaceMainGUI;
 import me.padej.eventmanager.gui.spleef.*;
 import me.padej.eventmanager.gui.spleef.arena.SpleefArenaGUI;
 import me.padej.eventmanager.gui.spleef.arena.SpleefFillArenaGUI;
@@ -58,7 +59,7 @@ public class MainGUI implements Listener {
         gui.setItem(19, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
         gui.setItem(20, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
         gui.setItem(21, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
-        gui.setItem(22, createEmptyNamedItem(Material.MAGENTA_STAINED_GLASS_PANE));
+        gui.setItem(22, createItem(Material.MACE, "§6Mace", "§7Mace Event"));
         gui.setItem(23, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
         gui.setItem(24, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
         gui.setItem(25, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
@@ -136,6 +137,8 @@ public class MainGUI implements Listener {
                         break;
                     case IRON_SHOVEL:
                         SpleefArenaGUI.openGUI(player);
+                    case MACE:
+                        MaceMainGUI.openGUI(player);
                 }
                 switch (event.getRawSlot()) {
                     case 32:

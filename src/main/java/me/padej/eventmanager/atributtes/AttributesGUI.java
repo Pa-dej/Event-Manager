@@ -23,8 +23,6 @@ import static me.padej.eventmanager.utils.ItemUtils.*;
 
 public class AttributesGUI implements Listener {
 
-    private final JavaPlugin plugin;
-
     private final Map<Player, Double> attackDamageModifiers;
     private final Map<Player, Double> attackSpeedModifiers;
     private final Map<Player, Double> knockBackResistanceModifiers;
@@ -33,7 +31,6 @@ public class AttributesGUI implements Listener {
     private final Map<Player, Double> movementSpeedModifiers;
 
     public AttributesGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         this.attackDamageModifiers = new HashMap<>();
         this.attackSpeedModifiers = new HashMap<>();
         this.knockBackResistanceModifiers = new HashMap<>();
@@ -313,7 +310,7 @@ public class AttributesGUI implements Listener {
                 }
 
                 for (Player observer : clickedPlayer.getWorld().getPlayers()) {
-                    observer.spawnParticle(Particle.ENCHANTMENT_TABLE, clickedPlayer.getLocation().add(0, 1, 0), 1);
+                    observer.spawnParticle(Particle.GLOW, clickedPlayer.getLocation().add(0, 1, 0), 1);
                 }
 
 

@@ -1,6 +1,5 @@
 package me.padej.eventmanager.gui.spleef.arena;
 
-import me.padej.eventmanager.gui.sumo.stp.StpPasteGUI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -15,9 +14,7 @@ import static me.padej.eventmanager.utils.ItemUtils.createEmptyNamedItem;
 import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class SpleefFillArenaGUI implements Listener {
-    private final JavaPlugin plugin;
     public SpleefFillArenaGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 

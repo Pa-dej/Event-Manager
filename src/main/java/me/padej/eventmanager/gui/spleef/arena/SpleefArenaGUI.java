@@ -16,9 +16,7 @@ import static me.padej.eventmanager.utils.ItemUtils.createEmptyNamedItem;
 
 public class SpleefArenaGUI implements Listener {
 
-    private final JavaPlugin plugin;
     public SpleefArenaGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
@@ -80,7 +78,6 @@ public class SpleefArenaGUI implements Listener {
             }
         }
     }
-
 
     private void giveNetheriteShovel(Player player) {
         // Радиус в блоках

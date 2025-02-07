@@ -29,11 +29,7 @@ import static me.padej.eventmanager.utils.ItemUtils.*;
 
 public class ToolsGUI implements Listener {
 
-    private final JavaPlugin plugin;
-    private boolean countdownActive = false;
-
     public ToolsGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
@@ -90,7 +86,7 @@ public class ToolsGUI implements Listener {
 
                 switch (clickedItem.getType()) {
                     case RED_DYE:
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 9000, 255));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 9000, 255));
                         break;
 
                     case IRON_SWORD:
@@ -132,7 +128,7 @@ public class ToolsGUI implements Listener {
         // Установка CustomModelData
         meta.setCustomModelData(3000);
         meta.setLore(Collections.singletonList("§7 ПКМ - Дать левитацию. Шифт+ПКМ - Снять левитацию."));
-        meta.addEnchant(Enchantment.ARROW_DAMAGE,1,false);
+        meta.addEnchant(Enchantment.POWER, 1, false);
 
         // Применение метаданных к предмету
         levetronItem.setItemMeta(meta);

@@ -6,7 +6,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,7 +15,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,8 +23,6 @@ import java.util.Map;
 import static me.padej.eventmanager.utils.ItemUtils.*;
 
 public class AttributesUtilsGUI implements Listener {
-
-    private final JavaPlugin plugin;
 
     private final Map<Player, Player> selectedPlayers;
 
@@ -37,8 +33,7 @@ public class AttributesUtilsGUI implements Listener {
     private final Map<Player, Double> maxHealthModifiers;
     private final Map<Player, Double> movementSpeedModifiers;
 
-    public AttributesUtilsGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
+    public AttributesUtilsGUI() {
         this.attackDamageModifiers = new HashMap<>();
         this.attackSpeedModifiers = new HashMap<>();
         this.knockBackResistanceModifiers = new HashMap<>();
@@ -327,7 +322,7 @@ public class AttributesUtilsGUI implements Listener {
                 }
 
                 for (Player observer : clickedPlayer.getWorld().getPlayers()) {
-                    observer.spawnParticle(Particle.ENCHANTMENT_TABLE, clickedPlayer.getLocation().add(0, 1, 0), 1);
+                    observer.spawnParticle(Particle.END_ROD, clickedPlayer.getLocation().add(0, 1, 0), 1);
                 }
 
                 // Обновляем GUI

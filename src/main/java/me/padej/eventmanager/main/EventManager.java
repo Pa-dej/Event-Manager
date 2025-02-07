@@ -2,6 +2,7 @@ package me.padej.eventmanager.main;
 
 import me.padej.eventmanager.atributtes.*;
 import me.padej.eventmanager.gui.*;
+import me.padej.eventmanager.gui.mace.MaceMainGUI;
 import me.padej.eventmanager.gui.spleef.arena.*;
 import me.padej.eventmanager.gui.spleef.*;
 import me.padej.eventmanager.gui.sumo.*;
@@ -14,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@SuppressWarnings("unused")
 public final class EventManager extends JavaPlugin implements Listener {
 
     @Override
@@ -39,9 +41,10 @@ public final class EventManager extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new SpleefUtilsGUI(this), this);
         Bukkit.getPluginManager().registerEvents(new SpleefFillArenaGUI(this), this);
         Bukkit.getPluginManager().registerEvents(new PotionRunGUI(this), this);
+        Bukkit.getPluginManager().registerEvents(new MaceMainGUI(this), this);
 
         Bukkit.getPluginManager().registerEvents(new AttributesGUI(this), this);
-        Bukkit.getPluginManager().registerEvents(new AttributesUtilsGUI(this), this);
+        Bukkit.getPluginManager().registerEvents(new AttributesUtilsGUI(), this);
 
         Bukkit.getPluginManager().registerEvents(new JoinEvent(), this);
     }
