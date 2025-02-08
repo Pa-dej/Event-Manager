@@ -2,6 +2,8 @@ package me.padej.eventmanager.gui.sumo;
 
 import me.padej.eventmanager.gui.MainGUI;
 import me.padej.eventmanager.gui.sumo.stp.StpGUI;
+import me.padej.eventmanager.utils.CountdownUtils;
+import me.padej.eventmanager.utils.FillRegion;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -61,7 +63,7 @@ public class SumoGUI implements Listener {
                         StpGUI.openGUI(player);
                         break;
                     case FIREWORK_ROCKET:
-                        start(player);
+                        startCountdown(player);
                         break;
                 }
             } else {
@@ -71,75 +73,29 @@ public class SumoGUI implements Listener {
         }
     }
 
-    private void start(Player player) {
-        if (countdownActive) {
-            player.sendActionBar("§cОтсчет уже активен.");
-            return;
-        }
-
-        countdownActive = true;
-        player.sendActionBar("§eОтсчет начинается...");
-
-        new BukkitRunnable() {
-            int countdown = 5;
-
-            @Override
-            public void run() {
-                if (countdown > 0) {
-                    // Бродкаст отсчета в радиусе 20 блоков
-                    for (Player nearbyPlayer : player.getWorld().getPlayers()) {
-                        if (nearbyPlayer.getLocation().distance(player.getLocation()) <= 20) {
-                            nearbyPlayer.sendTitle("§6" + countdown, "", 10, 10, 10);
-                            nearbyPlayer.playSound(nearbyPlayer.getLocation(), Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 1);
-                        }
-                    }
-                    countdown--;
-                } else {
-                    // Бродкаст сообщения о старте в радиусе 20 блоков
-                    for (Player nearbyPlayer : player.getWorld().getPlayers()) {
-                        if (nearbyPlayer.getLocation().distance(player.getLocation()) <= 20) {
-                            nearbyPlayer.sendTitle("§aВперед!", "", 10, 40, 10);
-                            nearbyPlayer.playSound(nearbyPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        }
-                    }
-                    countdownActive = false;
-                    cancel();
-                    activateBarrier(player.getLocation());
-                }
-            }
-        }.runTaskTimer(plugin, 0, 20); // Запуск каждую секунду (20 тиков)
+    public void startCountdown(Player whoStarted) {
+        CountdownUtils.startCountdown(whoStarted, 5, () -> {
+            updatePlatform();
+            return null;
+        });
     }
 
-    private void activateBarrier(Location location) {
-        World world = location.getWorld();
-        int x1 = 159;
-        int y1 = 143;
-        int z1 = -555;
-        int x2 = 147;
-        int y2 = 143;
-        int z2 = -543;
-
-        for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
-            for (int y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
-                for (int z = Math.min(z1, z2); z <= Math.max(z1, z2); z++) {
-                    Block block = world.getBlockAt(x, y, z);
-                    block.setType(Material.AIR);
-                }
-            }
-        }
+    void updatePlatform() {
+        fillAir();
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
-                    for (int y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
-                        for (int z = Math.min(z1, z2); z <= Math.max(z1, z2); z++) {
-                            Block block = world.getBlockAt(x, y, z);
-                            block.setType(Material.BARRIER);
-                        }
-                    }
-                }
+                fillBarrier();
             }
-        }.runTaskLater(plugin, 20 * 2); // Замена через 20 секунд (20 тиков * 20 секунд)
+        }.runTaskLater(plugin, 20); // Запуск через 1 секунду (20 тиков)
+    }
+
+    void fillAir() {
+        FillRegion.fillRegion(147, 143, -555, 159, 143, -543, Material.AIR);
+    }
+
+    void fillBarrier() {
+        FillRegion.fillRegion(147, 143, -555, 159, 143, -543, Material.BARRIER);
     }
 }

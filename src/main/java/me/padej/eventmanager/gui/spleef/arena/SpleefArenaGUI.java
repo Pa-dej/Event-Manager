@@ -1,8 +1,11 @@
 package me.padej.eventmanager.gui.spleef.arena;
 
 import me.padej.eventmanager.gui.spleef.SpleefMainGUI;
+import me.padej.eventmanager.utils.FillRegion;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockType;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -64,10 +67,10 @@ public class SpleefArenaGUI implements Listener {
                         event.setCancelled(true);
                         break;
                     case SNOW_BLOCK:
-                        setSnowBlock(player.getLocation());
+                        fillSnowBlock();
                         break;
                     case BEDROCK:
-                        setBedrock(player.getLocation());
+                        fillBedrock();
                         break;
                     case PUFFERFISH_BUCKET:
                         SpleefFillArenaGUI.openGUI(player);
@@ -89,9 +92,8 @@ public class SpleefArenaGUI implements Listener {
         double playerZ = player.getLocation().getZ();
 
         // Получение всех сущностей в радиусе
-        for (org.bukkit.entity.Entity nearbyEntity : player.getNearbyEntities(radius, radius, radius)) {
-            if (nearbyEntity instanceof Player) {
-                Player nearbyPlayer = (Player) nearbyEntity;
+        for (Entity nearbyEntity : player.getNearbyEntities(radius, radius, radius)) {
+            if (nearbyEntity instanceof Player nearbyPlayer) {
                 if (nearbyPlayer != player) {
                     // Получение координат игрока в радиусе
                     double nearbyX = nearbyPlayer.getLocation().getX();
@@ -117,41 +119,11 @@ public class SpleefArenaGUI implements Listener {
         return distanceSquared <= radiusSquared;
     }
 
-    private void setSnowBlock(Location location) {
-        World world = location.getWorld();
-        int x1 = 833;
-        int y1 = 87;
-        int z1 = -687;
-        int x2 = 902;
-        int y2 = 87;
-        int z2 = -618;
-
-        for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
-            for (int y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
-                for (int z = Math.min(z1, z2); z <= Math.max(z1, z2); z++) {
-                    Block block = world.getBlockAt(x, y, z);
-                    block.setType(Material.SNOW_BLOCK);
-                }
-            }
-        }
+    void fillBedrock() {
+        FillRegion.fillRegion(833, 87, -687, 902, 87, -618, Material.BEDROCK);
     }
 
-    private void setBedrock(Location location) {
-        World world = location.getWorld();
-        int x1 = 833;
-        int y1 = 87;
-        int z1 = -687;
-        int x2 = 902;
-        int y2 = 87;
-        int z2 = -618;
-
-        for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
-            for (int y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
-                for (int z = Math.min(z1, z2); z <= Math.max(z1, z2); z++) {
-                    Block block = world.getBlockAt(x, y, z);
-                    block.setType(Material.BEDROCK);
-                }
-            }
-        }
+    void fillSnowBlock() {
+        FillRegion.fillRegion(833, 87, -687, 902, 87, -618, Material.SNOW_BLOCK);
     }
 }

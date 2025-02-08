@@ -17,25 +17,56 @@ import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class StpPasteGUI implements Listener {
 
-    private final JavaPlugin plugin;
     public StpPasteGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     public static void openGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(player, 9, "§6StagePlatform§7/§6§nВставка арен");
+        Inventory gui = Bukkit.createInventory(player, 36, "§6StagePlatform§7/§6§nВставка арен");
 
         // Строка 1
-        gui.setItem(0, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(0, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
         gui.setItem(1, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
-        gui.setItem(2, createItem(Material.NETHERITE_INGOT, "§6sumo_classic", "§7Настройка вставки арены: sumo_classic"));
-        gui.setItem(3, createItem(Material.PUMPKIN_PIE, "§6sumo_halloween", "§7Настройка вставки арены: sumo_halloween"));
-        gui.setItem(4, createItem(Material.SNOWBALL, "§6sumo_ice", "§7Настройка вставки арены: sumo_ice"));
-        gui.setItem(5, createItem(Material.PINK_PETALS, "§6sumo_lotus", "§7Настройка вставки арены: sumo_lotus"));
-        gui.setItem(6, createItem(Material.SWEET_BERRIES, "§6sumo_xmas", "§7Настройка вставки арены: sumo_xmas"));
+        gui.setItem(2, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(3, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(4, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(5, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(6, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
         gui.setItem(7, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
-        gui.setItem(8, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(8, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
+
+        // Строка 2
+        gui.setItem(9, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
+        gui.setItem(10, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(11, createItem(Material.NETHERITE_INGOT, "§6sumo_classic", "§7Настройка вставки арены: §6sumo_classic"));
+        gui.setItem(12, createItem(Material.PUMPKIN_PIE, "§6sumo_halloween", "§7Настройка вставки арены: §6sumo_halloween"));
+        gui.setItem(13, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
+        gui.setItem(14, createItem(Material.NETHER_STAR, "§6sumo_star", "§7Настройка вставки арены: §6sumo_star"));
+        gui.setItem(15, createItem(Material.PINK_PETALS, "§6sumo_Pink", "§7Настройка вставки арены: §6sumo_Pink"));
+        gui.setItem(16, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(17, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
+
+        // Строка 3
+        gui.setItem(18, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
+        gui.setItem(19, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(20, createItem(Material.PACKED_ICE, "§6sumo_ice", "§7Настройка вставки арены: §6sumo_ice"));
+        gui.setItem(21, createItem(Material.SPRUCE_SAPLING, "§6sumo_xmas", "§7Настройка вставки арены: §6sumo_xmas"));
+        gui.setItem(22, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
+        gui.setItem(23, createItem(Material.END_CRYSTAL, "§6sumo_starP", "§7Настройка вставки арены: §6sumo_starP"));
+        gui.setItem(24, createItem(Material.CHERRY_SAPLING, "§6sumo_lotus", "§7Настройка вставки арены: §6sumo_lotus"));
+        gui.setItem(25, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(26, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
+
+        // Строка 4
+        gui.setItem(27, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
+        gui.setItem(28, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
+        gui.setItem(29, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(30, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(31, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(32, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(33, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
+        gui.setItem(34, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
+        gui.setItem(35, createEmptyNamedItem(Material.ORANGE_STAINED_GLASS_PANE));
 
         player.openInventory(gui);
     }
@@ -58,14 +89,23 @@ public class StpPasteGUI implements Listener {
                     case PUMPKIN_PIE:
                         sumoHalloweenGUI.openGUI(player);
                         break;
-                    case SNOWBALL:
-                        sumoIceGUI.openGUI(player);
+                    case NETHER_STAR:
+                        sumoStarGUI.openGUI(player);
                         break;
                     case PINK_PETALS:
-                        sumoLotusGUI.openGUI(player);
+                        sumoPinkGUI.openGUI(player);
                         break;
-                    case SWEET_BERRIES:
+                    case PACKED_ICE:
+                        sumoIceGUI.openGUI(player);
+                        break;
+                    case SPRUCE_SAPLING:
                         sumoXmasGUI.openGUI(player);
+                        break;
+                    case END_CRYSTAL:
+                        sumoStarPGUI.openGUI(player);
+                        break;
+                    case CHERRY_SAPLING:
+                        sumoLotusGUI.openGUI(player);
                         break;
                 }
             } else {

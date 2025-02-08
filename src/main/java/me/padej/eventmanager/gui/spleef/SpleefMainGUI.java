@@ -2,6 +2,8 @@ package me.padej.eventmanager.gui.spleef;
 
 import me.padej.eventmanager.gui.MainGUI;
 import me.padej.eventmanager.gui.spleef.arena.SpleefArenaGUI;
+import me.padej.eventmanager.utils.CountdownUtils;
+import me.padej.eventmanager.utils.FillRegion;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -18,11 +20,7 @@ import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class SpleefMainGUI implements Listener {
 
-    private boolean countdownActive = false;
-
-    private final JavaPlugin plugin;
     public SpleefMainGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
@@ -62,13 +60,13 @@ public class SpleefMainGUI implements Listener {
                         SpleefUtilsGUI.openGUI(player);
                         break;
                     case OAK_DOOR:
-                        open(new Location(player.getWorld(), 832, 102, -655), new Location(player.getWorld(), 832, 107, -650), player);
+                        openDoor();
                         break;
                     case IRON_DOOR:
-                        close(new Location(player.getWorld(), 832, 102, -655), new Location(player.getWorld(), 832, 107, -650), player);
+                        closeDoor();
                         break;
                     case FIREWORK_ROCKET:
-                        start(player);
+                        startCountdown(player);
                         break;
                 }
             } else {
@@ -78,85 +76,22 @@ public class SpleefMainGUI implements Listener {
         }
     }
 
-    private void start(Player player) {
-        if (countdownActive) {
-            player.sendActionBar("§cОтсчет уже активен.");
-            return;
-        }
-
-        countdownActive = true;
-        player.sendActionBar("§eОтсчет начинается...");
-
-        new BukkitRunnable() {
-            int countdown = 5;
-
-            @Override
-            public void run() {
-                if (countdown > 0) {
-                    // Бродкаст отсчета в радиусе 20 блоков
-                    for (Player nearbyPlayer : player.getWorld().getPlayers()) {
-                        if (nearbyPlayer.getLocation().distance(player.getLocation()) <= 20) {
-                            nearbyPlayer.sendTitle("§6" + countdown, "", 10, 10, 10);
-                            nearbyPlayer.playSound(nearbyPlayer.getLocation(), Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 1);
-                        }
-                    }
-                    countdown--;
-                } else {
-                    // Бродкаст сообщения о старте в радиусе 20 блоков
-                    for (Player nearbyPlayer : player.getWorld().getPlayers()) {
-                        if (nearbyPlayer.getLocation().distance(player.getLocation()) <= 20) {
-                            nearbyPlayer.sendTitle("§aВперед!", "", 10, 40, 10);
-                            nearbyPlayer.playSound(nearbyPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        }
-                    }
-                    countdownActive = false;
-                    cancel();
-                    setSnowBlock(player.getLocation());
-                }
-            }
-        }.runTaskTimer(plugin, 0, 20); // Запуск каждую секунду (20 тиков)
+    public void startCountdown(Player whoStarted) {
+        CountdownUtils.startCountdown(whoStarted, 5, () -> {
+            fillSnowBlock();
+            return null;
+        });
     }
 
-    private void setSnowBlock(Location location) {
-        World world = location.getWorld();
-        int x1 = 833;
-        int y1 = 87;
-        int z1 = -687;
-        int x2 = 902;
-        int y2 = 87;
-        int z2 = -618;
-
-        for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
-            for (int y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
-                for (int z = Math.min(z1, z2); z <= Math.max(z1, z2); z++) {
-                    Block block = world.getBlockAt(x, y, z);
-                    block.setType(Material.SNOW_BLOCK);
-                }
-            }
-        }
+    void fillSnowBlock() {
+        FillRegion.fillRegion(833, 87, -687, 902, 87, -618, Material.SNOW_BLOCK);
     }
 
-    public void open(Location start, Location end, Player player) {
-        World world = player.getWorld();
-
-        for (int x = start.getBlockX(); x <= end.getBlockX(); x++) {
-            for (int y = start.getBlockY(); y <= end.getBlockY(); y++) {
-                for (int z = start.getBlockZ(); z <= end.getBlockZ(); z++) {
-                    world.getBlockAt(x, y, z).setType(Material.AIR);
-                }
-            }
-        }
+    void openDoor() {
+        FillRegion.fillRegion(832, 102, -655, 832, 107, -650, Material.AIR);
     }
 
-    public void close(Location start, Location end, Player player) {
-        World world = player.getWorld();
-
-        for (int x = start.getBlockX(); x <= end.getBlockX(); x++) {
-            for (int y = start.getBlockY(); y <= end.getBlockY(); y++) {
-                for (int z = start.getBlockZ(); z <= end.getBlockZ(); z++) {
-                    world.getBlockAt(x, y, z).setType(Material.BLUE_STAINED_GLASS);
-                }
-            }
-        }
+    void closeDoor() {
+        FillRegion.fillRegion(832, 102, -655, 832, 107, -650, Material.BLUE_STAINED_GLASS);
     }
 }

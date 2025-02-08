@@ -16,9 +16,7 @@ import static me.padej.eventmanager.utils.ItemUtils.createEmptyNamedItem;
 import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class sumoLotusGUI implements Listener {
-    private final JavaPlugin plugin;
     public sumoLotusGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 

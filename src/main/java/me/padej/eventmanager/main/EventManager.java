@@ -42,6 +42,9 @@ public final class EventManager extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new SpleefFillArenaGUI(this), this);
         Bukkit.getPluginManager().registerEvents(new PotionRunGUI(this), this);
         Bukkit.getPluginManager().registerEvents(new MaceMainGUI(this), this);
+        Bukkit.getPluginManager().registerEvents(new sumoPinkGUI(), this);
+        Bukkit.getPluginManager().registerEvents(new sumoStarGUI(), this);
+        Bukkit.getPluginManager().registerEvents(new sumoStarPGUI(), this);
 
         Bukkit.getPluginManager().registerEvents(new AttributesGUI(this), this);
         Bukkit.getPluginManager().registerEvents(new AttributesUtilsGUI(), this);

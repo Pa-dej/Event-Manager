@@ -19,9 +19,7 @@ import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class StpGUI implements Listener {
 
-    private final JavaPlugin plugin;
     public StpGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 

@@ -17,9 +17,7 @@ import static me.padej.eventmanager.utils.ItemUtils.createEmptyNamedItem;
 import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class sumoClassicGUI implements Listener {
-    private final JavaPlugin plugin;
     public sumoClassicGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 

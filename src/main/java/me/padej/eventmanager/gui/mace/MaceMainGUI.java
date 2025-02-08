@@ -1,14 +1,17 @@
 package me.padej.eventmanager.gui.mace;
 
 import me.padej.eventmanager.gui.MainGUI;
-import me.padej.eventmanager.gui.spleef.SpleefMainGUI;
-import org.bukkit.*;
+import me.padej.eventmanager.utils.CountdownUtils;
+import me.padej.eventmanager.utils.FillRegion;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -57,13 +60,13 @@ public class MaceMainGUI implements Listener {
 
                 switch (clickedItem.getType()) {
                     case OAK_DOOR:
-                        fillAir(player.getWorld());
+                        fillAir();
                         break;
                     case FIREWORK_ROCKET:
-                        start(player);
+                        startCountdown(player);
                         break;
                     case IRON_DOOR:
-                        fillOrangeStainedGlass(player.getWorld());
+                        fillOrangeStainedGlass();
                         break;
                 }
             } else {
@@ -73,79 +76,39 @@ public class MaceMainGUI implements Listener {
         }
     }
 
-    private void start(Player player) {
-        if (countdownActive) {
-            player.sendActionBar("§cОтсчёт уже активен.");
-            return;
-        }
+    public void startCountdown(Player whoStarted) {
+        CountdownUtils.startCountdown(whoStarted, 5, () -> {
+            updatePlatform();
+            return null; // В Java нужно вернуть null, так как лямбда в Kotlin ожидает Unit
+        });
+    }
 
-        countdownActive = true;
-        player.sendActionBar("§eОтсчёт начинается...");
+    void updatePlatform() {
+        fillAir();
 
         new BukkitRunnable() {
-            int countdown = 5;
-
             @Override
             public void run() {
-                if (countdown > 0) {
-                    // Бродкаст отсчёта в радиусе 20 блоков
-                    for (Player nearbyPlayer : player.getWorld().getPlayers()) {
-                        if (nearbyPlayer.getLocation().distance(player.getLocation()) <= 20) {
-                            nearbyPlayer.sendTitle("§6" + countdown, "", 10, 10, 10);
-                            nearbyPlayer.playSound(nearbyPlayer.getLocation(), Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 1);
-                        }
-                    }
-                    countdown--;
-                } else {
-                    // Бродкаст сообщения о старте в радиусе 20 блоков
-                    for (Player nearbyPlayer : player.getWorld().getPlayers()) {
-                        if (nearbyPlayer.getLocation().distance(player.getLocation()) <= 20) {
-                            nearbyPlayer.sendTitle("§aВперёд!", "", 10, 40, 10);
-                            nearbyPlayer.playSound(nearbyPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        }
-                    }
-                    countdownActive = false;
-                    cancel();
-                    fillAir(player.getWorld());
-
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            fillOrangeStainedGlass(player.getWorld());
-                        }
-                    }.runTaskLater(plugin, 20); // Запуск через 1 секунду (20 тиков)
-                }
+                fillOrangeStainedGlass();
             }
-        }.runTaskTimer(plugin, 0, 20); // Запуск каждую секунду (20 тиков)
+        }.runTaskLater(plugin, 20); // Запуск через 1 секунду (20 тиков)
     }
 
-    private void fillAir(World world) {
+    private void fillAir() {
         // Main square
-        fill(-411, 138, 6618, -403, 138, 6626, Material.AIR, world);
+        FillRegion.fillRegion(-411, 138, 6618, -403, 138, 6626, Material.AIR);
 
         // Corners
-        fill(-409, 138, 6617, -405, 138, 6627, Material.AIR, world);
-        fill(-412, 138, 6620, -402, 138, 6624, Material.AIR, world);
+        FillRegion.fillRegion(-409, 138, 6617, -405, 138, 6627, Material.AIR);
+        FillRegion.fillRegion(-412, 138, 6620, -402, 138, 6624, Material.AIR);
     }
 
-    private void fillOrangeStainedGlass(World world) {
+    private void fillOrangeStainedGlass() {
         // Main square
-        fill(-411, 138, 6618, -403, 138, 6626, Material.ORANGE_STAINED_GLASS, world);
+        FillRegion.fillRegion(-411, 138, 6618, -403, 138, 6626, Material.ORANGE_STAINED_GLASS);
 
         // Corners
-        fill(-409, 138, 6617, -405, 138, 6627, Material.ORANGE_STAINED_GLASS, world);
-        fill(-412, 138, 6620, -402, 138, 6624, Material.ORANGE_STAINED_GLASS, world);
-    }
-
-    private void fill(int x1, int y1, int z1, int x2, int y2, int z2, Material material, World world) {
-
-        for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
-            for (int y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
-                for (int z = Math.min(z1, z2); z <= Math.max(z1, z2); z++) {
-                    Block block = world.getBlockAt(x, y, z);
-                    block.setType(material);
-                }
-            }
-        }
+        FillRegion.fillRegion(-409, 138, 6617, -405, 138, 6627, Material.ORANGE_STAINED_GLASS);
+        FillRegion.fillRegion(-412, 138, 6620, -402, 138, 6624, Material.ORANGE_STAINED_GLASS);
     }
 }

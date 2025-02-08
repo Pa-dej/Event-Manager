@@ -16,9 +16,7 @@ import static me.padej.eventmanager.utils.ItemUtils.*;
 import static me.padej.eventmanager.utils.ItemUtils.createItemWithoutAttributes;
 
 public class sumoHalloweenGUI implements Listener {
-    private final JavaPlugin plugin;
     public sumoHalloweenGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 

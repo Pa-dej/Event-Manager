@@ -16,10 +16,7 @@ import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class SpleefUtilsGUI implements Listener {
 
-    private final JavaPlugin plugin;
-
     public SpleefUtilsGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
