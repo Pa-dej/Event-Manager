@@ -4,28 +4,24 @@ import me.padej.eventmanager.gui.MainGUI;
 import me.padej.eventmanager.gui.spleef.arena.SpleefArenaGUI;
 import me.padej.eventmanager.utils.CountdownUtils;
 import me.padej.eventmanager.utils.FillRegion;
-import org.bukkit.*;
-import org.bukkit.block.Block;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import static me.padej.eventmanager.utils.ItemUtils.createEmptyNamedItem;
 import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class SpleefMainGUI implements Listener {
 
-    public SpleefMainGUI(JavaPlugin plugin) {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
     public static void openGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(player, 9, "§5Менеджер ивентов§7/§b§nSpleef");
+        Inventory gui = Bukkit.createInventory(player, 9, "§8Менеджер ивентов§7/§8§nSpleef");
 
         // Строка 1
         gui.setItem(0, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
@@ -43,10 +39,11 @@ public class SpleefMainGUI implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("§5Менеджер ивентов§7/§b§nSpleef") && !event.isCancelled()) {
+        if (event.getView().getTitle().equals("§8Менеджер ивентов§7/§8§nSpleef") && !event.isCancelled()) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
+            event.setCancelled(player.getGameMode() != GameMode.SPECTATOR);
 
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
                 player.updateInventory();

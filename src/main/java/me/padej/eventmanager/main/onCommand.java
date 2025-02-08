@@ -9,13 +9,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import static me.padej.eventmanager.Items.CreateEventerWand.EventerWand;
 import static me.padej.eventmanager.messages.sendRandomMessage;
 
 public class onCommand implements CommandExecutor, TabCompleter {

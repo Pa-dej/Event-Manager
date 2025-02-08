@@ -1,7 +1,5 @@
 package me.padej.eventmanager.gui;
 
-import me.padej.eventmanager.data.PlayerData;
-import me.padej.eventmanager.data.PlayerDataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -13,28 +11,20 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.Collections;
 
 import static me.padej.eventmanager.utils.ItemUtils.*;
 
 public class ToolsGUI implements Listener {
 
-    public ToolsGUI(JavaPlugin plugin) {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
     public static void openGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 27, "§5Менеджер ивентов§7/§9§nTools");
+        Inventory gui = Bukkit.createInventory(null, 27, "§8Менеджер ивентов§7/§8§nTools");
 
         // Строка 1
         gui.setItem(0, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
@@ -74,11 +64,11 @@ public class ToolsGUI implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("§5Менеджер ивентов§7/§9§nTools") && !event.isCancelled()) {
+        if (event.getView().getTitle().equals("§8Менеджер ивентов§7/§8§nTools") && !event.isCancelled()) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
-            PlayerData data = PlayerDataManager.getData((Player) event.getWhoClicked());
+            event.setCancelled(player.getGameMode() != GameMode.SPECTATOR);
 
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
                 player.updateInventory();

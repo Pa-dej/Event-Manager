@@ -13,7 +13,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,7 +29,7 @@ public class AttributesGUI implements Listener {
     private final Map<Player, Double> maxHealthModifiers;
     private final Map<Player, Double> movementSpeedModifiers;
 
-    public AttributesGUI(JavaPlugin plugin) {
+    public AttributesGUI() {
         this.attackDamageModifiers = new HashMap<>();
         this.attackSpeedModifiers = new HashMap<>();
         this.knockBackResistanceModifiers = new HashMap<>();
@@ -180,6 +179,7 @@ public class AttributesGUI implements Listener {
 
                 ItemStack clickedItem = event.getCurrentItem();
                 Player clickedPlayer = (Player) event.getWhoClicked();
+                event.setCancelled(clickedPlayer.getGameMode() != GameMode.SPECTATOR);
 
                 clickedPlayer.playSound(clickedPlayer.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 1, 1);
 

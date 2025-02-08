@@ -1,25 +1,24 @@
 package me.padej.eventmanager.gui.spleef.arena;
 
 import me.padej.eventmanager.utils.FillRegion;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import static me.padej.eventmanager.utils.ItemUtils.createEmptyNamedItem;
 import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class SpleefFillArenaGUI implements Listener {
-    public SpleefFillArenaGUI(JavaPlugin plugin) {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
 
     public static void openGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(player, 9, "§bSpleefArena§7/§b§nЗаполнение арены");
+        Inventory gui = Bukkit.createInventory(player, 9, "§8SpleefArena§7/§8§nЗаполнение арены");
 
         // Строка 1
         gui.setItem(0, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
@@ -37,10 +36,11 @@ public class SpleefFillArenaGUI implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("§bSpleefArena§7/§b§nЗаполнение арены") && !event.isCancelled()) {
+        if (event.getView().getTitle().equals("§8SpleefArena§7/§8§nЗаполнение арены") && !event.isCancelled()) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
+            event.setCancelled(player.getGameMode() != GameMode.SPECTATOR);
 
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
                 player.updateInventory();

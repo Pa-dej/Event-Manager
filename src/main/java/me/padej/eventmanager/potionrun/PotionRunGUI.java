@@ -13,7 +13,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
@@ -22,17 +21,8 @@ import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class PotionRunGUI implements Listener {
 
-
-    private final JavaPlugin plugin;
-    private boolean countdownActive = false;
-
-    public PotionRunGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
     public static void openGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(player, 9, "§5Менеджер ивентов§7/§5§nPotionRun");
+        Inventory gui = Bukkit.createInventory(player, 9, "§8Менеджер ивентов§7/§8§nPotionRun");
 
         // Строка 1
         gui.setItem(0, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
@@ -50,7 +40,7 @@ public class PotionRunGUI implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("§5Менеджер ивентов§7/§5§nPotionRun") && !event.isCancelled()) {
+        if (event.getView().getTitle().equals("§8Менеджер ивентов§7/§8§nPotionRun") && !event.isCancelled()) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();

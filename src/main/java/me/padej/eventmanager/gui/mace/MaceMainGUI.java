@@ -1,20 +1,20 @@
 package me.padej.eventmanager.gui.mace;
 
 import me.padej.eventmanager.gui.MainGUI;
+import me.padej.eventmanager.main.EventManager;
+import me.padej.eventmanager.utils.BarrierUpdater;
 import me.padej.eventmanager.utils.CountdownUtils;
 import me.padej.eventmanager.utils.FillRegion;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import static me.padej.eventmanager.utils.ItemUtils.createEmptyNamedItem;
@@ -22,16 +22,8 @@ import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class MaceMainGUI implements Listener {
 
-    private boolean countdownActive = false;
-
-    private final JavaPlugin plugin;
-    public MaceMainGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
     public static void openGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(player, 9, "§5Менеджер ивентов§7/§6§nMace");
+        Inventory gui = Bukkit.createInventory(player, 9, "§8Менеджер ивентов§7/§8§nMace");
 
         // Строка 1
         gui.setItem(0, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
@@ -49,10 +41,11 @@ public class MaceMainGUI implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("§5Менеджер ивентов§7/§6§nMace") && !event.isCancelled()) {
+        if (event.getView().getTitle().equals("§8Менеджер ивентов§7/§8§nMace") && !event.isCancelled()) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
+            event.setCancelled(player.getGameMode() != GameMode.SPECTATOR);
 
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
                 player.updateInventory();
@@ -91,7 +84,7 @@ public class MaceMainGUI implements Listener {
             public void run() {
                 fillOrangeStainedGlass();
             }
-        }.runTaskLater(plugin, 20); // Запуск через 1 секунду (20 тиков)
+        }.runTaskLater(EventManager.getInstance(), 20); // Запуск через 1 секунду (20 тиков)
     }
 
     private void fillAir() {

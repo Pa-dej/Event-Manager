@@ -1,10 +1,7 @@
 package me.padej.eventmanager.atributtes;
 
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -192,6 +189,7 @@ public class AttributesUtilsGUI implements Listener {
                 ItemStack clickedItem = event.getCurrentItem();
                 Player player = (Player) event.getWhoClicked();
                 Player clickedPlayer = selectedPlayers.get(player);
+                event.setCancelled(player.getGameMode() != GameMode.SPECTATOR);
 
                 clickedPlayer.playSound(clickedPlayer.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 1, 1);
 

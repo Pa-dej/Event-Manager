@@ -1,14 +1,16 @@
 package me.padej.eventmanager.gui;
 
 import me.padej.eventmanager.gui.mace.MaceMainGUI;
-import me.padej.eventmanager.gui.spleef.*;
+import me.padej.eventmanager.gui.spleef.SpleefMainGUI;
+import me.padej.eventmanager.gui.spleef.SpleefUtilsGUI;
 import me.padej.eventmanager.gui.spleef.arena.SpleefArenaGUI;
 import me.padej.eventmanager.gui.spleef.arena.SpleefFillArenaGUI;
-import me.padej.eventmanager.gui.sumo.*;
+import me.padej.eventmanager.gui.sumo.SumoGUI;
 import me.padej.eventmanager.gui.sumo.stp.StpPasteGUI;
-import me.padej.eventmanager.gui.sumoteam.*;
+import me.padej.eventmanager.gui.sumoteam.SumoTeamGUI;
 import me.padej.eventmanager.potionrun.PotionRunGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -17,20 +19,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import static me.padej.eventmanager.messages.*;
 import static me.padej.eventmanager.messages.sendHelpInfoMessage;
 import static me.padej.eventmanager.utils.ItemUtils.*;
 
 public class MainGUI implements Listener {
 
-    public MainGUI(JavaPlugin plugin) {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
     public static void openGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 45, "§5§nМенеджер ивентов");
+        Inventory gui = Bukkit.createInventory(null, 45, "§8§nМенеджер ивентов");
 
         // Строка 1
         gui.setItem(0, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
@@ -92,9 +88,11 @@ public class MainGUI implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("§5§nМенеджер ивентов") && !event.isCancelled()) {
-            event.setCancelled(true);
+        if (event.getView().getTitle().equals("§8§nМенеджер ивентов")) {
             Player player = (Player) event.getWhoClicked();
+
+            event.setCancelled(player.getGameMode() != GameMode.SPECTATOR);
+
             ItemStack clickedItem = event.getCurrentItem();
 
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
@@ -137,9 +135,12 @@ public class MainGUI implements Listener {
                         break;
                     case IRON_SHOVEL:
                         SpleefArenaGUI.openGUI(player);
+                        break;
                     case MACE:
                         MaceMainGUI.openGUI(player);
+                        break;
                 }
+
                 switch (event.getRawSlot()) {
                     case 32:
                         if (event.isLeftClick()) {
@@ -165,10 +166,8 @@ public class MainGUI implements Listener {
                         }
                         break;
                 }
-            } else {
-                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 1, 1);
-                player.closeInventory();
             }
         }
     }
+
 }

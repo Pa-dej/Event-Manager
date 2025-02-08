@@ -2,7 +2,6 @@ package me.padej.eventmanager;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
-import org.yaml.snakeyaml.DumperOptions;
 
 import java.util.Random;
 

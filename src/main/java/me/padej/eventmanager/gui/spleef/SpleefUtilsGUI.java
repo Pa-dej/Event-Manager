@@ -1,7 +1,7 @@
 package me.padej.eventmanager.gui.spleef;
 
-import me.padej.eventmanager.gui.MainGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -10,18 +10,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class SpleefUtilsGUI implements Listener {
 
-    public SpleefUtilsGUI(JavaPlugin plugin) {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
     public static void openGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(player, 36, "§bSpleef§7/§b§nSpleefUtils");
+        Inventory gui = Bukkit.createInventory(player, 36, "§8Spleef§7/§8§nSpleefUtils");
 
         // Строка 1
         gui.setItem(0, createItem(Material.RED_STAINED_GLASS_PANE, "§cВыключить функцию"));
@@ -72,10 +67,11 @@ public class SpleefUtilsGUI implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("§bSpleef§7/§b§nSpleefUtils") && !event.isCancelled()) {
+        if (event.getView().getTitle().equals("§8Spleef§7/§8§nSpleefUtils") && !event.isCancelled()) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
+            event.setCancelled(player.getGameMode() != GameMode.SPECTATOR);
 
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
                 player.updateInventory();

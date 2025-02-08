@@ -1,8 +1,8 @@
 package me.padej.eventmanager.gui.sumo.stp.arena;
 
-import me.padej.eventmanager.gui.MainGUI;
 import me.padej.eventmanager.gui.sumo.stp.StpPasteGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -11,18 +11,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import static me.padej.eventmanager.utils.ItemUtils.createEmptyNamedItem;
 import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class sumoClassicGUI implements Listener {
-    public sumoClassicGUI(JavaPlugin plugin) {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
 
     public static void openGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(player, 9, "§6Вставка арен§7/§6§nsumo_classic");
+        Inventory gui = Bukkit.createInventory(player, 9, "§8Вставка арен§7/§8§nsumo_classic");
 
         // Строка 1
         gui.setItem(0, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
@@ -40,10 +36,11 @@ public class sumoClassicGUI implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("§6Вставка арен§7/§6§nsumo_classic") && !event.isCancelled()) {
+        if (event.getView().getTitle().equals("§8Вставка арен§7/§8§nsumo_classic") && !event.isCancelled()) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
+            event.setCancelled(player.getGameMode() != GameMode.SPECTATOR);
 
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
                 player.updateInventory();

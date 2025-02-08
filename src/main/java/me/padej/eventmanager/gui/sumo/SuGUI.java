@@ -1,10 +1,8 @@
 package me.padej.eventmanager.gui.sumo;
 
-import me.padej.eventmanager.gui.MainGUI;
-import me.padej.eventmanager.gui.sumo.stp.StpGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,26 +10,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static me.padej.eventmanager.utils.ItemUtils.createEmptyNamedItem;
 import static me.padej.eventmanager.utils.ItemUtils.createItem;
 
 public class SuGUI implements Listener {
 
-    private final JavaPlugin plugin;
-    public SuGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
     public static void openGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(player, 9, "§aSumo§7/§a§nSumoUtils");
+        Inventory gui = Bukkit.createInventory(player, 9, "§8Sumo§7/§8§nSumoUtils");
 
         // Строка 1
         gui.setItem(0, createEmptyNamedItem(Material.BLACK_STAINED_GLASS_PANE));
@@ -49,10 +35,11 @@ public class SuGUI implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("§aSumo§7/§a§nSumoUtils") && !event.isCancelled()) {
+        if (event.getView().getTitle().equals("§8Sumo§7/§8§nSumoUtils") && !event.isCancelled()) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
+            event.setCancelled(player.getGameMode() != GameMode.SPECTATOR);
 
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
                 player.updateInventory();
