@@ -79,7 +79,7 @@ public class AttributesGUI implements Listener {
 
     private ItemStack createAttributeItemLuck(Player player, Material material, String attributeName) {
         double modifier = luckModifiers.getOrDefault(player, 0.0);
-        modifier = Math.round(modifier * 100.0) / 100.0; // Округление до сотых
+        modifier = Math.round(modifier * 100.0) / 100.0;
 
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
