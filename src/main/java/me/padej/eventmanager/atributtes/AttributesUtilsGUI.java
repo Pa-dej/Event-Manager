@@ -43,7 +43,7 @@ public class AttributesUtilsGUI implements Listener {
     private ItemStack createAttributeItemAttackDamage(Player player, Material material, String attributeName) {
         Player clickedPlayer = selectedPlayers.get(player);
         double modifier = attackDamageModifiers.getOrDefault(clickedPlayer, 1.0);
-        modifier = Math.round(modifier * 100.0) / 100.0; // Округление до сотых
+        modifier = Math.round(modifier * 100.0) / 100.0; 
 
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -57,7 +57,7 @@ public class AttributesUtilsGUI implements Listener {
     private ItemStack createAttributeItemAttackSpeed(Player player, Material material, String attributeName) {
         Player clickedPlayer = selectedPlayers.get(player);
         double modifier = attackSpeedModifiers.getOrDefault(clickedPlayer, 4.0);
-        modifier = Math.round(modifier * 100.0) / 100.0; // Округление до сотых
+        modifier = Math.round(modifier * 100.0) / 100.0;
 
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
