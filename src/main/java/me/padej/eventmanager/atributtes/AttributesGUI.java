@@ -40,7 +40,7 @@ public class AttributesGUI implements Listener {
 
     private ItemStack createAttributeItemAttackDamage(Player player, Material material, String attributeName) {
         double modifier = attackDamageModifiers.getOrDefault(player, 1.0);
-        modifier = Math.round(modifier * 100.0) / 100.0; // Округление до сотых
+        modifier = Math.round(modifier * 100.0) / 100.0;
 
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -53,7 +53,7 @@ public class AttributesGUI implements Listener {
 
     private ItemStack createAttributeItemAttackSpeed(Player player, Material material, String attributeName) {
         double modifier = attackSpeedModifiers.getOrDefault(player, 4.0);
-        modifier = Math.round(modifier * 100.0) / 100.0; // Округление до сотых
+        modifier = Math.round(modifier * 100.0) / 100.0;
 
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -66,7 +66,7 @@ public class AttributesGUI implements Listener {
 
     private ItemStack createAttributeItemKnockBackResistance(Player player, Material material, String attributeName) {
         double modifier = knockBackResistanceModifiers.getOrDefault(player, 0.0);
-        modifier = Math.round(modifier * 100.0) / 100.0; // Округление до сотых
+        modifier = Math.round(modifier * 100.0) / 100.0;
 
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -92,7 +92,7 @@ public class AttributesGUI implements Listener {
 
     private ItemStack createAttributeItemMaxHealth(Player player, Material material, String attributeName) {
         double modifier = maxHealthModifiers.getOrDefault(player, 20.0);
-        modifier = Math.round(modifier * 100.0) / 100.0; // Округление до сотых
+        modifier = Math.round(modifier * 100.0) / 100.0;
 
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -105,7 +105,7 @@ public class AttributesGUI implements Listener {
 
     private ItemStack createAttributeItemMovementSpeed(Player player, Material material, String attributeName) {
         double modifier = movementSpeedModifiers.getOrDefault(player, 0.10000000149011612);
-        modifier = Math.round(modifier * 100.0) / 100.0; // Округление до сотых
+        modifier = Math.round(modifier * 100.0) / 100.0;
 
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -124,7 +124,6 @@ public class AttributesGUI implements Listener {
         double modifierMaxHealth = maxHealthModifiers.getOrDefault(player, 20.0);
         double modifierMovementSpeed = movementSpeedModifiers.getOrDefault(player, 0.10000000149011612);
 
-        // Обновление атрибута атаки у игрока
         player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(+modifierAttackDamage);
         player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(+modifierAttackSpeed);
         player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(+modifierKnockBackResistance);
@@ -269,18 +268,14 @@ public class AttributesGUI implements Listener {
                     // Обрабатываем события взаимодействия
                     if (event.isLeftClick()) {
                         if (event.isShiftClick()) {
-                            // Shift+ЛКМ: Увеличивает аттрибут attack_damage для игрока на 0.1
                             maxHealthModifiers.put(clickedPlayer, currentModifier + 2.0);
                         } else {
-                            // ЛКМ: Увеличивает аттрибут attack_damage для игрока на 0.01
                             maxHealthModifiers.put(clickedPlayer, currentModifier + 1.0);
                         }
                     } else if (event.isRightClick()) {
                         if (event.isShiftClick()) {
-                            // Shift+ПКМ: Уменьшает аттрибут attack_damage для игрока на 0.1
                             maxHealthModifiers.put(clickedPlayer, currentModifier - 2.0);
                         } else {
-                            // ПКМ: Уменьшает аттрибут attack_damage для игрока на 0.01
                             maxHealthModifiers.put(clickedPlayer, currentModifier - 1.0);
                         }
                     } else if (event.getClick().equals(ClickType.DROP)) {
@@ -326,21 +321,18 @@ public class AttributesGUI implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
 
-        // Проверка, что предмет - JIGSAW, не null и имеет CustomModelData:3000
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (item != null && item.getType() == Material.JIGSAW && getCustomModelData(item) == 3000) {
-                // Используем созданный экземпляр attributesGUI
                 openGUI(player);
             }
         }
     }
 
-    // Метод для получения CustomModelData из предмета
     private int getCustomModelData(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         if (meta != null && meta.hasCustomModelData()) {
             return meta.getCustomModelData();
         }
-        return -1; // или другое значение по умолчанию, если не найдено
+        return -1;
     }
 }
